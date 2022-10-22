@@ -1,34 +1,16 @@
-# Backend_Projects_Prital
-Backend_Project_Prital5
-
+Plutonium
 Repository for backend cohort - Plutonium
 
 Blogging Site Mini Project Requirement
 Phase I
 Models
-***Author Model***
-{ fname: { mandatory}, 
-lname: {mandatory}, 
-title: {mandatory, enum[Mr, Mrs, Miss]}, 
-email: {mandatory, valid email, unique}, 
-password: {mandatory} }
-***Blogs Model***
-{ title: {mandatory},
- body: {mandatory}, 
- authorId: {mandatory, refs to author model}, 
- tags: {array of string},
-  category: {string, mandatory, examples: [technology, entertainment, life style, food, fashion]}, 
-  subcategory: {array of string, examples[technology-[web development, mobile development, AI, ML etc]] }, createdAt, 
-  updatedAt, 
-  deletedAt: {when the document is deleted}, 
-  isDeleted: {boolean, default: false}, 
-  publishedAt: {when the blog is published}, 
-  isPublished: {boolean, default: false}}
-
+Author Model
+{ fname: { mandatory}, lname: {mandatory}, title: {mandatory, enum[Mr, Mrs, Miss]}, email: {mandatory, valid email, unique}, password: {mandatory} }
+Blogs Model
+{ title: {mandatory}, body: {mandatory}, authorId: {mandatory, refs to author model}, tags: {array of string}, category: {string, mandatory, examples: [technology, entertainment, life style, food, fashion]}, subcategory: {array of string, examples[technology-[web development, mobile development, AI, ML etc]] }, createdAt, updatedAt, deletedAt: {when the document is deleted}, isDeleted: {boolean, default: false}, publishedAt: {when the blog is published}, isPublished: {boolean, default: false}}
 Author APIs /authors
 Create an author - atleast 5 authors
 Create a author document from request body. Endpoint: BASE_URL/authors
-
 POST /blogs
 Create a blog document from request body. Get authorId in request body only.
 
@@ -85,17 +67,9 @@ A Postman collection and request sample
 
 Response
 Successful Response structure
-{
-  status: true,
-  data: {
-
-  }
-}
+{ status: true, data: {} }
 Error Response structure
-{
-  status: false,
-  msg: ""
-}
+{ status: false, msg: "" }
 Collections
 Blogs
 {
@@ -105,21 +79,25 @@ Blogs
   "category": "Book",
   "subcategory": ["Non fiction", "Self Help"],
   "published": false,
-  "publishedAt": "", // if published is true publishedAt will have a date 2021-09-17T04:25:07.803Z
-  "deleted": false,
-  "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
+  "publishedAt": "",
+  ? // if published is true publishedAt will have a date 2021-09-17T04:25:07.803Z
+    "deleted"
+  : false,
+  "deletedAt": "",
+  // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
   "createdAt": "2021-09-17T04:25:07.803Z",
   "updatedAt": "2021-09-17T04:25:07.803Z",
 }
 Successful Login Response structure
 {
   status: true,
-  data: {
-   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjYyZmUzYmUzMzY2ZmFkNDZjY2Q1MzI3ZiIsImlhdCI6MTY2MDgzMDA4MywiZXhwIjoxNjYwODY2MDgzfQ.mSo-TLyRlGhMNcy4ftEvvIlCHlyEqpaFZc-iBth4lfg"
-
-  }
+  data:
+    {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjYyZmUzYmUzMzY2ZmFkNDZjY2Q1MzI3ZiIsImlhdCI6MTY2MDgzMDA4MywiZXhwIjoxNjYwODY2MDgzfQ.mSo-TLyRlGhMNcy4ftEvvIlCHlyEqpaFZc-iBth4lfg",
+    },
 }
-
+Refer https://jsonplaceholder.typicode.com/guide/ for some fake blogs data.
+Note: Create a group database and use the same database in connection string by replacing `groupXDatabase
 What is a blogging site?
 Blogging refers to the process of managing a blog, from idea generation to the publishing process. It includes the necessary tasks people need to run a blog, such as writing a blog post, promoting it, modifying it and deleting it as per need.
 
