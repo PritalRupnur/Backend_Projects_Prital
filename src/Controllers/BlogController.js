@@ -71,24 +71,52 @@ const createBlog = async (req, res)=> {
 
 const getBlogs = async (req, res) => {
     try {
-        let data = req.query;
-
-        let filter = { isDeleted: false, isPublished: true };
-
-        let filter1 = { ...data, ...filter };
-
-        let getSpecificBlogs = await blogModel.find(filter1);
-        if (getSpecificBlogs.length == 0) {
-            return res
-                .status(404)
-                .send({ status: false, data: "No blogs can be found" });
-        } else {
-            return res.status(200).send({ status: true, data: getSpecificBlogs });
-        }
-    } catch (error) {
-        res.status(500).send({ status: false, err: error.message });
+      let data=req.query;  
+      if (Object.keys(data).length==0){ 
+        return res.status(400).send({status:false,msg:"Provide atleast one Query to fetch blog details"});
+      };
+    
+      let {category, authorId, tags, subcategory}=data;
+      let filter={isDeleted:false, isPublished:true};
+    
+      if(category || category==""){
+        if (!isEmpty(category)) {
+          return res.status(400).send({status:false,msg:"category must be present"});
+        };
+        filter.category=category;
+      };
+      if(authorId || authorId==""){
+        if(!isEmpty(authorId)){
+          return res.status(400).send({status:false,msg:"authorId must be present"});
+        };
+        if (!isValidObjectId(authorId)){
+          return res.status(400).send({status:false,msg:"Invalid blogId"});
+        };
+        filter.authorId=authorId;
+      };
+      if(tags){
+        if(tags.trim().length==0){
+          return res.status(400).send({status:false,msg:"Enter valid tags"});
+        };
+        tags=tags.split(",")
+        filter.tags={$in:tags}
+      };
+      if(subcategory) {
+        if(subcategory.trim().length==0){
+          return res.status(400).send({status:false,msg:"Enter valid subcategory"});
+        };
+        subcategory=subcategory.split(",")
+        filter.subcategory={$in:subcategory}
+      };
+      let fetchBlogs=await blogModel.find(filter);
+      if(fetchBlogs.length==0){
+        return res.status(404).send({status:false,msg:"Such Blogs Not Available" })
+      }  
+        return res.status(200).send({status:true,data:fetchBlogs});
+    } catch (err) {
+      res.status(500).send({ status: false, error: err.message });
     }
-};
+  };
 
 
 //===============================================================updateBlog======================================================================
